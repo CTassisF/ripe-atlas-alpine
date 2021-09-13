@@ -24,6 +24,7 @@ RUN apk add --no-cache libcap net-tools openssh tini &&\
  chown -R atlas: /var/atlas-probe /var/atlasdata &&\
  setcap cap_net_raw=ep /usr/local/atlas/bb-13.3/bin/busybox
 WORKDIR /var/atlas-probe
-VOLUME /var/atlas-probe/etc
+VOLUME ["/var/atlas-probe/etc", "/var/atlas-probe/status"]
 ENTRYPOINT ["/sbin/tini", "--"]
-CMD atlas
+CMD rm -rf /var/atlasdata/* 2> /dev/null &&\
+ atlas
