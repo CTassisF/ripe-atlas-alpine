@@ -5,7 +5,6 @@ RUN apk add --no-cache autoconf automake g++ gcc git libtool linux-headers make 
  cd ripe-atlas-software-probe/probe-busybox/ &&\
  git checkout devel &&\
  cd / &&\
- sed -i '/atlasdata.*tmpfs/Q' ripe-atlas-software-probe/bin/arch/debian-sw-probe/debian-sw-probe-ATLAS.sh &&\
  sed -i '/fakeroot.*dpkg-deb/Q' ripe-atlas-software-probe/build-config/debian/bin/make-deb &&\
  ./ripe-atlas-software-probe/build-config/debian/bin/make-deb
 
@@ -16,7 +15,8 @@ COPY --from=builder /atlasswprobe-*-1/var/atlas-probe/ /var/atlas-probe/
 RUN apk add --no-cache libcap net-tools openssh tini &&\
  adduser -D atlas &&\
  ln -s /usr/local/atlas/bin/ATLAS /usr/local/bin/atlas &&\
- echo "RXTXRPT=yes" > /var/atlas-probe/state/config.txt &&\
+ echo "CHECK_ATLASDATA_TMPFS=no" > /var/atlas-probe/state/config.txt &&\
+ echo "RXTXRPT=yes" >> /var/atlas-probe/state/config.txt &&\
  mkdir /var/atlasdata &&\
  chmod 777 /var/atlasdata &&\
  chown -R atlas: /var/atlas-probe /var/atlasdata &&\
