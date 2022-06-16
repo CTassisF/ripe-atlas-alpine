@@ -1,11 +1,9 @@
 FROM arm32v7/alpine:latest AS builder
 MAINTAINER CTassisF@users.noreply.github.com
-COPY busybox-patch-for-glibc-2.31-and-musl-1.2.0-compatibility.patch /
 RUN apk add --no-cache autoconf automake g++ gcc git libtool linux-headers make openssl-dev patch sed &&\
  git clone --recursive https://github.com/RIPE-NCC/ripe-atlas-software-probe.git &&\
  cd ripe-atlas-software-probe/probe-busybox/ &&\
  git checkout devel &&\
- git apply --ignore-space-change --ignore-whitespace /busybox-patch-for-glibc-2.31-and-musl-1.2.0-compatibility.patch &&\
  cd / &&\
  sed -i '/atlasdata.*tmpfs/Q' ripe-atlas-software-probe/bin/arch/debian-sw-probe/debian-sw-probe-ATLAS.sh &&\
  sed -i '/fakeroot.*dpkg-deb/Q' ripe-atlas-software-probe/build-config/debian/bin/make-deb &&\
