@@ -1,6 +1,6 @@
 #!/bin/bash
 
-docker build -f Dockerfile.amd64 -t ctassisf/ripe-atlas-alpine:amd64 .
-docker build -f Dockerfile.arm32v7 -t ctassisf/ripe-atlas-alpine:arm32v7 .
-docker build -f Dockerfile.arm64v8 -t ctassisf/ripe-atlas-alpine:arm64v8 .
-
+docker buildx rm --force ripe-atlas-alpine
+docker buildx create --name ripe-atlas-alpine --use
+docker buildx build --no-cache --platform=linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64/v8 --provenance=false --pull --push --tag ctassisf/ripe-atlas-alpine:latest .
+docker buildx rm --force ripe-atlas-alpine

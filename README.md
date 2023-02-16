@@ -6,20 +6,22 @@ Docker images of RIPE Atlas Software Probe using Alpine Linux
 Based on the [official code provided by RIPE NCC](https://github.com/RIPE-NCC/ripe-atlas-software-probe), with a few tweaks to make it run under Alpine Linux.
 
 Images available on Docker Hub for architectures:
+- 386
 - amd64
-- arm64v8
-- arm32v7
+- arm/v6
+- arm/v7
+- arm64/v8
 
-These can be pulled using tags:
+These can be pulled using the `latest` tag:
 
 ```
-docker pull ctassisf/ripe-atlas-alpine:amd64
+docker pull ctassisf/ripe-atlas-alpine:latest
 ```
 
 Then you can run:
 
 ```
-docker run --detach --name ripe-atlas --restart unless-stopped --volume $(pwd)/atlas-probe-etc:/var/atlas-probe/etc --volume $(pwd)/atlas-probe-status:/var/atlas-probe/status ctassisf/ripe-atlas-alpine:amd64
+docker run --detach --name ripe-atlas --restart unless-stopped --volume $(pwd)/atlas-probe-etc:/var/atlas-probe/etc --volume $(pwd)/atlas-probe-status:/var/atlas-probe/status ctassisf/ripe-atlas-alpine:latest
 ```
 
 * Check if the container is running using `docker ps`; check container logs using `docker logs ripe-atlas`.
