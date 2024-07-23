@@ -11,6 +11,9 @@ Images available on Docker Hub for architectures:
 - arm/v6
 - arm/v7
 - arm64/v8
+- ppc64le
+- riscv64
+- s390x
 
 These can be pulled using the `latest` tag:
 
