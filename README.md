@@ -21,7 +21,7 @@ docker pull ctassisf/ripe-atlas-alpine:latest
 Then you can run:
 
 ```
-docker run --detach --name ripe-atlas --restart unless-stopped --volume $(pwd)/atlas-probe-etc:/var/atlas-probe/etc --volume $(pwd)/atlas-probe-status:/var/atlas-probe/status ctassisf/ripe-atlas-alpine:latest
+docker run --detach --name ripe-atlas --restart unless-stopped --volume $(pwd)/atlas-probe-etc:/probe/etc/ripe-atlas --volume $(pwd)/atlas-probe-status:/probe/var/run/ripe-atlas/status ctassisf/ripe-atlas-alpine:latest
 ```
 
 * Check if the container is running using `docker ps`; check container logs using `docker logs ripe-atlas`.
