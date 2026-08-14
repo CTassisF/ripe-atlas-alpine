@@ -19,4 +19,5 @@ VOLUME ["/probe/etc/ripe-atlas", "/probe/var/run/ripe-atlas/status"]
 ENTRYPOINT ["/sbin/tini", "--"]
 CMD [ ! -f /probe/etc/ripe-atlas/config.txt ] && echo "RXTXRPT=yes" > /probe/etc/ripe-atlas/config.txt ;\
  [ ! -f /probe/etc/ripe-atlas/mode ] && echo "prod" > /probe/etc/ripe-atlas/mode ;\
+ [ -f /probe/etc/ripe-atlas/reg_servers.sh ] && rm /probe/etc/ripe-atlas/reg_servers.sh ;\
  /probe/sbin/ripe-atlas
