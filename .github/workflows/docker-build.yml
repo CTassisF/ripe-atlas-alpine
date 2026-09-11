@@ -5,7 +5,10 @@ jobs:
     needs: check-changes
     runs-on: ubuntu-latest
     permissions:
+      artifact-metadata: write
+      attestations: write
       contents: read
+      id-token: write
       packages: write
     steps:
       - name: Checkout repository
@@ -25,7 +28,8 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
           username: ${{ github.actor }}
-      - name: Build and push Docker images
+      - id: build
+        name: Build and push Docker images
         uses: docker/build-push-action@v7
         with:
           context: .
@@ -39,6 +43,18 @@ jobs:
             ctassisf/ripe-atlas-alpine:latest
             ghcr.io/ctassisf/ripe-atlas-alpine:${{ needs.check-changes.outputs.probe_version }}
             ghcr.io/ctassisf/ripe-atlas-alpine:latest
+      - name: Attest build provenance for Docker Hub
+        uses: actions/attest@v4
+        with:
+          push-to-registry: true
+          subject-digest: ${{ steps.build.outputs.digest }}
+          subject-name: index.docker.io/ctassisf/ripe-atlas-alpine
+      - name: Attest build provenance for GHCR
+        uses: actions/attest@v4
+        with:
+          push-to-registry: true
+          subject-digest: ${{ steps.build.outputs.digest }}
+          subject-name: ghcr.io/ctassisf/ripe-atlas-alpine
   check-changes:
     runs-on: ubuntu-latest
     outputs:
