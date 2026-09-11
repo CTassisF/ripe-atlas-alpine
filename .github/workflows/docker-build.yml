@@ -38,6 +38,9 @@ jobs:
           provenance: mode=max
           push: true
           sbom: true
+          build-args: |
+            REVISION=${{ github.sha }}
+            VERSION=${{ needs.check-changes.outputs.probe_version }}
           tags: |
             ctassisf/ripe-atlas-alpine:${{ needs.check-changes.outputs.probe_version }}
             ctassisf/ripe-atlas-alpine:latest
@@ -49,7 +52,7 @@ jobs:
           push-to-registry: true
           subject-digest: ${{ steps.build.outputs.digest }}
           subject-name: index.docker.io/ctassisf/ripe-atlas-alpine
-      - name: Attest build provenance for GHCR
+      - name: Attest build provenance for GitHub Container Registry
         uses: actions/attest@v4
         with:
           push-to-registry: true

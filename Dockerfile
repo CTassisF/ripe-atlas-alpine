@@ -1,5 +1,4 @@
 FROM alpine:latest AS builder
-MAINTAINER CTassisF@users.noreply.github.com
 RUN apk add --no-cache autoconf automake g++ gcc git libtool linux-headers make openssl-dev patch sed &&\
  git clone --recursive https://github.com/RIPE-NCC/ripe-atlas-software-probe.git &&\
  cd ripe-atlas-software-probe/ &&\
@@ -8,7 +7,17 @@ RUN apk add --no-cache autoconf automake g++ gcc git libtool linux-headers make 
  make install
 
 FROM alpine:latest AS probe
-MAINTAINER CTassisF@users.noreply.github.com
+ARG REVISION
+ARG VERSION
+LABEL org.opencontainers.image.authors="CTassisF@users.noreply.github.com" \
+ org.opencontainers.image.description="Docker images of RIPE Atlas Software Probe using Alpine Linux" \
+ org.opencontainers.image.licenses="GPL-3.0" \
+ org.opencontainers.image.revision="$REVISION" \
+ org.opencontainers.image.source="https://github.com/CTassisF/ripe-atlas-alpine" \
+ org.opencontainers.image.title="ripe-atlas-alpine" \
+ org.opencontainers.image.url="https://hub.docker.com/r/ctassisf/ripe-atlas-alpine" \
+ org.opencontainers.image.vendor="CTassisF" \
+ org.opencontainers.image.version="$VERSION"
 COPY --from=builder /probe /probe
 RUN apk add --no-cache libcap net-tools openssh tini &&\
  adduser -D ripe-atlas &&\
